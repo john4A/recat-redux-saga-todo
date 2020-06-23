@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskCard from '../../molecules/TaskCard';
 import './list.css'
 import { connect } from 'react-redux';
@@ -6,6 +6,10 @@ import AddTaskCard from '../../molecules/AddTaskCard';
 
 const TaskList = (props) => {
     const [addTask,setAddTask]=useState(false)
+
+    useEffect(()=>{
+        props.fetchTodos()
+    })
     return (
         <div className="list-container">
             {props.todoIds.map((id, index) => {
@@ -22,12 +26,18 @@ const TaskList = (props) => {
 
 
 
-const matchStateToProps = state => {
+const mapStateToProps = state => {
     return {
         todoIds: state.todoIds,
         byIds: state.byIds
     }
 }
 
-export default connect(matchStateToProps)(TaskList)
+const mapDispatchToProps=dispatch=>{
+    return{
+        fetchTodos:()=>dispatch({type:'FETCH_ALL_TODOS'})
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(TaskList)
 

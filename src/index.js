@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux';
 import { rootSaga } from './sagas/root.saga';
 import todoReducer from './reducers/todoReducer';
+import * as firebase from 'firebase/app'
+import {firebaseConfig} from './config'
 // import { watchAddTodo } from './sagas/addTodo.saga';
+
+firebase.initializeApp(firebaseConfig)
 
 const sagaMiddleware = createSagaMiddleware()
 
-const store = createStore(todoReducer, applyMiddleware(sagaMiddleware))
+const store = createStore(todoReducer, compose(applyMiddleware(sagaMiddleware),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()))
 
 sagaMiddleware.run(rootSaga)
 

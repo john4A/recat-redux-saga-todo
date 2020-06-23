@@ -1,30 +1,25 @@
-import {put,takeEvery, select} from 'redux-saga/effects'
+import { put, takeEvery, select, call } from 'redux-saga/effects'
+import { addTodoService } from '../services/todo-services'
 
-const getState=state=>state
+const getState = state => state
 
-function* addTodo(action){
-    let state=yield select(getState)
+function* addTodo(action) {
+    let todos = yield call(addTodoService, { ...action.payload, completed: false })
 
-    let id=state.todoIds[state.todoIds.length-1]+1
-    state={
+    let state = yield select(getState)
+
+
+    let ids = Object.keys(todos)
+    state = {
         ...state,
-        todoIds: [...state.todoIds, id],
-        byIds: {
-            ...state.byIds,
-            [id]: {
-                title: action.payload.title,
-                description:action.payload.description,
-                completed: false
-            }
-        }
+        todoIds: ids,
+        byIds: todos
     }
 
-    console.log(state)
-
-    yield put({type:'ADD_TODO',payload:state})
+    yield put({ type: 'ADD_TODO', payload: state })
 }
 
-export function* watchAddTodo(){
+export function* watchAddTodo() {
     console.log("inside watcher")
-    yield takeEvery('ADD_TODO_ASYNC',addTodo)
+    yield takeEvery('ADD_TODO_ASYNC', addTodo)
 }
