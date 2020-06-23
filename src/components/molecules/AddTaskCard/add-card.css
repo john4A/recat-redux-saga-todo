@@ -1,0 +1,10 @@
+
+.add-card-container{
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #dfdfdf;
+    padding: 2vh 1vw;
+    border-radius: 5px ;
+    margin-top: 2vh;
+}

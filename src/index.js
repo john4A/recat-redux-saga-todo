@@ -3,10 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import { Provider } from 'react-redux';
+import { rootSaga } from './sagas/root.saga';
+import todoReducer from './reducers/todoReducer';
+// import { watchAddTodo } from './sagas/addTodo.saga';
+
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(todoReducer, applyMiddleware(sagaMiddleware))
+
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

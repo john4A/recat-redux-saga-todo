@@ -1,0 +1,9 @@
+.list-container{
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000000;
+    padding: 0vh 1vw ;
+    overflow: scroll;
+}
