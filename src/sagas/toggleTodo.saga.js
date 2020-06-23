@@ -1,22 +1,18 @@
-import { takeLatest, select, put } from 'redux-saga/effects'
+import { takeLatest, put, call, select } from 'redux-saga/effects'
+import {toggleTodoService} from '../services/todo-services'
 
-const getState = state => state
+const getState=state=>state
 
 function* toggleTodo(action) {
-    let state = yield select(getState)
+    var todos= yield call(toggleTodoService,action.payload.id)
 
-    state = {
+    let state=yield select(getState)
+    state={
         ...state,
-        byIds: {
-            ...state.byIds,
-            [action.payload.id]: {
-                ...state.byIds[action.payload.id],
-                completed: !state.byIds[action.payload.id].completed
-            }
-        }
+        byIds:todos
     }
 
-    yield put({type:'TOGGLE_TODO',payload:state})
+    yield put({type:'TOGGLE_TODOS',payload:state})
 
 }
 
