@@ -1,5 +1,5 @@
 const initialState = {
-    todoIds: [1,2],
+    todoIds: [1, 2],
     byIds: {
         1: {
             title: "Task 1",
@@ -17,30 +17,9 @@ const initialState = {
 const todoReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_TODO':
-            let id=state.todoIds[state.todoIds.length-1]+1
-            return {
-                ...state,
-                todoIds: [...state.todoIds, id],
-                byIds: {
-                    ...state.byIds,
-                    [id]: {
-                        title: action.payload.title,
-                        description:action.payload.description,
-                        completed: false
-                    }
-                }
-            }
+            return action.payload
         case 'TOGGLE_TODOS':
-            return {
-                ...state,
-                byIds: {
-                    ...state.byIds,
-                    [action.payload.id]: {
-                        ...state.byIds[action.payload.id],
-                        completed: !state.byIds[action.payload.id].completed
-                    }
-                }
-            }
+            return action.payload
         default:
             return state
 
